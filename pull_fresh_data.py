@@ -64,13 +64,12 @@ def convert_to_csv(excel_file):
         print 'Could not convert {}: {}'.format(excel_file, str(e))
 
 if __name__ == '__main__':
-    # grab_philly_fed_page('')
+    grab_philly_fed_page('')
     excel_files = []
     for subpage in find_sub_index_pages():
-        # grab_philly_fed_page(subpage)
-
+        grab_philly_fed_page(subpage)
         excel_files.extend(find_excel_files(subpage))
 
     for file in set(excel_files):
-        # download_excel(file)
+        download_excel(file)
         convert_to_csv(file.replace(' ', ''))
