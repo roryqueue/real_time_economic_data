@@ -16,7 +16,7 @@ def table_from_csv(file_name, column_names):
     try:
         # I know formatting this is a bad habit but psycopg2 won't allow me to pass
         # in a table name proper regular way
-        create_table_query =\
+        pg_cursor.execute(
             """ CREATE TABLE {table_name} (
                     "DATE" date not null,
                     {data_columns}
@@ -38,11 +38,10 @@ def table_from_csv(file_name, column_names):
                     ]
                 )[0:-2]
             )
-        pg_cursor.execute(create_table_query)
+        )
     except Exception as e:
-        print 'Error: ', e
-        if 'already exists' not in str(e):
-            print '\n', create_table_query
+        print file_name, ' Error: ', e
+
 
 def load_to_postgres(csv_file_path):
     with open(csv_file_path, 'r') as csv_file:
@@ -55,7 +54,6 @@ def load_to_postgres(csv_file_path):
                     row.keys()
                 )
 
-            # pprint(row)
 
 def main():
     for csv_file in os.listdir('csv_data'):
