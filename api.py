@@ -22,6 +22,7 @@ def _error_handler(error, error_code=400):
 app.register_error_handler(Exception, _error_handler)
 
 
+# example: http://mysite.com/api?tables=table1+table_2+table_3&min_date=1900Q1&max_date=2000Q4
 @app.route('/api', methods=["GET"])
 def get_data():
     request.args['tables'] = [
@@ -30,8 +31,29 @@ def get_data():
     ]
     pg_cursor.execute(
         """ SELECT {columns}
+            FROM {tables}
+            {min_date_clause}
+            {max_date_clause}
+            ORDER BY a.DATE ASC;
         """, {
-            'columns':
+            'columns': ,
+            'tables': '{} base'.format(request.args['tables'][0]) +\
+                reduce(
+                    lambda table_list, table: table_list + table,
+                    [
+                        '\nLEFT JOIN {table} ON base.DATE = {table}.DATE'.format(table=table)\
+                        for table in request.args['tables'][1:]
+                    ]
+                ),
+            'min_date_clause': 'WHERE a.DATE => {min_date_clause}'.format(
+                request.args['min_date'] if request.args.get('min_date') else ''
+            ),
+            'max_date_clause': (
+                'AND ' if request.args.get('min_date') else 'WHERE '\
+                + 'a.DATE <= {max_date}'.format(
+                    request.args['max_date']
+                )
+            ) if request.args.get('max_date') else ''
         }
     )
     return jsonify({})
