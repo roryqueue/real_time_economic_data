@@ -5,6 +5,7 @@ import csv
 import os
 import re
 from pprint import pprint
+from functools import reduce
 
 # POSTGRES is a dict in the global scope of the gitignored configs.py file specifying db and auth
 pg_connection = psycopg2.connect(**configs.POSTGRES)
@@ -28,7 +29,7 @@ def table_from_csv(file_name, column_names):
         elif first_digit_finder is not None:
             new_column_name = new_column_name[first_digit_finder.start():]
         else:
-            print "Couldn't format {}, continuing...".format(column_name)
+            print("Couldn't format {}, continuing...".format(column_name))
             continue
 
         if new_column_name[0] in ['0', '1']:
@@ -48,7 +49,7 @@ def table_from_csv(file_name, column_names):
                 elif len(suffix) == 2:
                     suffix = '0' + suffix[1:] + '01'
                 else:
-                    print "Couldn't format {}, continuing...".format(column_name)
+                    print("Couldn't format {}, continuing...".format(column_name))
 
             elif suffix[0] == 'Q':
                 prefix = 'q_'
@@ -61,11 +62,11 @@ def table_from_csv(file_name, column_names):
                 elif suffix[1:] == '4':
                     suffix = '1001'
                 else:
-                    print "Couldn't format {}, continuing...".format(column_name)
+                    print("Couldn't format {}, continuing...".format(column_name))
                     continue
 
             else:
-                print "Couldn't format {}, continuing...".format(column_name)
+                print("Couldn't format {}, continuing...".format(column_name))
                 continue
 
             new_column_name = prefix + year + suffix
@@ -97,7 +98,7 @@ def table_from_csv(file_name, column_names):
         )
 
     except Exception as e:
-        print file_name, ' Error: ', e
+        print(file_name + ' Error: ' + str(e))
 
 
 def load_to_postgres(csv_file_path):
