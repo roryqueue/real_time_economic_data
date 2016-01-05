@@ -195,7 +195,8 @@ def load_to_postgres(csv_file_path):
 
 def main():
     for csv_file in os.listdir('csv_data'):
-        load_to_postgres('csv_data/' + csv_file)
+        if 'first_second_third' not in csv_file:
+            load_to_postgres('csv_data/' + csv_file)
 
 
 if __name__ == '__main__':
