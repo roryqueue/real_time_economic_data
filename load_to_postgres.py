@@ -22,7 +22,7 @@ def string_list(actual_list):
     )[0:-2]
 
 
-def standardize_column_name(column_name):
+def standardize_column_name(column_name, table_name):
 
     if column_name.lower() in ['date', '']:
         return '"DATE"'
@@ -51,7 +51,6 @@ def standardize_column_name(column_name):
         suffix =  new_column_name[first_non_digit_finder.start():]
 
         if suffix[0] == 'M':
-            prefix = 'm_'
             if len(suffix) == 3:
                 suffix = suffix[1:] + '01'
             elif len(suffix) == 2:
@@ -61,7 +60,6 @@ def standardize_column_name(column_name):
                 return None
 
         elif suffix[0] == 'Q':
-            prefix = 'q_'
             if suffix[1:] == '1':
                 suffix = '0101'
             elif suffix[1:] == '2':
@@ -78,7 +76,9 @@ def standardize_column_name(column_name):
             print("Couldn't format {}, continuing...".format(column_name))
             return None
 
-        new_column_name = prefix + year + suffix
+        new_column_name = year + suffix
+
+    new_column_name = table_name + '_' + new_column_name
 
     return new_column_name
 
@@ -87,7 +87,7 @@ def table_from_csv(table_name=None, column_names=None):
     standardized_column_names = []
     for column_name in column_names:
         if column_name.lower() not in ['', 'date']:
-            standardized_column_names.append(standardize_column_name(column_name))
+            standardized_column_names.append(standardize_column_name(column_name, table_name))
 
     if len(standardized_column_names) < 1:
         return
@@ -152,7 +152,7 @@ def populate_row(table_name=None, row=None):
     cleaned_row = OrderedDict()
 
     for key, value in row.items():
-        cleaned_row[standardize_column_name(key)] = standardize_value(value)
+        cleaned_row[standardize_column_name(key, table_name)] = standardize_value(value)
 
     if cleaned_row.get(None):
         cleaned_row.pop(None)
@@ -174,23 +174,38 @@ def populate_row(table_name=None, row=None):
             print(table_name + ' Error: ' + str(e))
 
 
+def monthly_or_quarterly(row):
+    for key, value in row.items():
+        stripped_key = re.sub('[^a-z]+', '', key.lower())
+        if len(stripped_key) > 0:
+            if stripped_key[-1] == 'm':
+                return 'monthly'
+            if stripped_key[-1] == 'q':
+                return 'quarterly'
+
+    return 'unknown'
+
+
 def load_to_postgres(csv_file_path):
     with open(csv_file_path, 'r') as csv_file:
         csv_contents = csv.DictReader(csv_file)
         file_name = csv_file_path.split('/')[-1].replace('.csv', '')
 
+
         for index, row in enumerate(csv_contents):
             if index == 0:
+                table_name = file_name + '_' + monthly_or_quarterly(row)
+
                 table_from_csv(
-                    table_name=file_name,
+                    table_name=table_name,
                     column_names=row.keys()
                 )
 
             populate_row(
-                table_name=file_name,
+                table_name=table_name,
                 row=row
             )
-
+        print('Loaded file ', file_name)
 
 
 def main():
