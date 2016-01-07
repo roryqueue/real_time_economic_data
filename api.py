@@ -34,19 +34,35 @@ def get_data():
     tables_arg = request.args.get('tables', request.args.get('table'))
     if tables_arg is None:
         return jsonify({'Error': 'You must specify metric tables.'})
-    print(tables_arg)
+
     tables = [table for table in tables_arg.split(' ')]
 
     tables_sql = '{} base'.format(tables[0])
     for additional_table in tables[1:]:
         tables_sql += '\nLEFT JOIN {table} ON base."DATE" = {table}."DATE"'.format(table=additional_table)
-    print(tables_sql)
+
+    if request.args.get('min_date'):
+        min_date_sql = 'AND base."DATE" >= \'{}\'::date'.format(request.args.get('min_date'))
+    else:
+        min_date_sql = ''
+
+    if request.args.get('max_date'):
+        max_date_sql = 'AND base."DATE" <= \'{}\'::date'.format(request.args.get('max_date'))
+    else:
+        max_date_sql = ''
+
     # eventually i'll need to check this against a list of table names to prevent sql injection
     pg_cursor.execute(
         """ SELECT *
-            FROM {}
+            FROM {tables}
+            {min_date_clause}
+            {max_date_clause}
             ORDER BY base."DATE" ASC;
-        """.format(tables_sql)
+        """.format(
+            tables=tables_sql,
+            min_date_clause=min_date_sql,
+            max_date_clause=max_date_sql
+        )
     )
     data_return = pg_cursor.fetchall()
 
