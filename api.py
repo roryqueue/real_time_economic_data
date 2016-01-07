@@ -34,12 +34,12 @@ def get_data():
     tables_arg = request.args.get('tables', request.args.get('table'))
     if tables_arg is None:
         return jsonify({'Error': 'You must specify metric tables.'})
-
-    tables = [table for table in tables_arg.split('+')]
+    print(tables_arg)
+    tables = [table for table in tables_arg.split(' ')]
 
     tables_sql = '{} base'.format(tables[0])
     for additional_table in tables[1:]:
-        tables_sql += '\nLEFT JOIN {table} ON base."DATE" = {table}."DATE"'.format(table=table)
+        tables_sql += '\nLEFT JOIN {table} ON base."DATE" = {table}."DATE"'.format(table=additional_table)
     print(tables_sql)
     # eventually i'll need to check this against a list of table names to prevent sql injection
     pg_cursor.execute(
