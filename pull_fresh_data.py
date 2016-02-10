@@ -25,7 +25,7 @@ def find_sub_index_pages():
             try:
                 dataset_links.append(link_list_item.a['href'].split('/')[-1])
             except:
-                print 'Could not find link in {}'.format(link_list_item)
+                print('Could not find link in {}'.format(link_list_item))
 
     return set(dataset_links)
 
@@ -51,7 +51,7 @@ def download_excel(filename):
 
 
 def convert_to_csv(excel_file):
-    print excel_file
+    print(excel_file)
     try:
         excel_workbook = xlrd.open_workbook('excel_data/' + excel_file)
         first_sheet = excel_workbook.sheet_by_index(0)
@@ -61,7 +61,7 @@ def convert_to_csv(excel_file):
             csv_writer.writerow(first_sheet.row_values(row_index))
         csv_file.close()
     except Exception as e:
-        print 'Could not convert {}: {}'.format(excel_file, str(e))
+        print('Could not convert {}: {}'.format(excel_file, str(e)))
 
 if __name__ == '__main__':
     grab_philly_fed_page('')
