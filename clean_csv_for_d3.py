@@ -1,26 +1,44 @@
 import csv
+import os
+import re
+from pprint import pprint
 import clean_data
 
 def create_clean_csv(csv_file_path):
-	try:
-	    old_file_name = csv_file_path.split('/')[-1][:-4]
 
-	    with open(csv_file_path, 'r') as csv_file:
-	        csv_contents = csv.DictReader(csv_file)
+    old_file_name = csv_file_path.split('/')[-1][:-4]
+    with open(csv_file_path, 'r') as csv_file:
 
-	        new_file_name = old_file_name + '_'\
-	        	+ clean_data.monthly_or_quarterly(row) + '.csv'
+        csv_contents = csv.DictReader(csv_file)
+        for index, row in enumerate(csv_contents):
 
-	        new_csv_file = open('d3_csv/' + new_file_name, 'wb')
-	        csv_writer = csv.writer(new_csv_file)
+            new_file_name = old_file_name + '_' + clean_data.monthly_or_quarterly(row) + '.csv'
 
-	      	for index, row in enumerate(csv_contents):
-	            csv_writer.writerow(first_sheet.row_values(row_index))
+            with open('d3_csv/' + new_file_name, 'w') as new_csv_file:
+                columns = list(row.keys())
+                for index, column in enumerate(columns):
+                    if column == '':
+                        columns[index] = 'date'
 
-	        csv_file.close()
+                csv_writer = csv.DictWriter(new_csv_file, fieldnames=columns)
+                if index == 0:
+                    print(new_file_name)
+                    csv_writer.writeheader()
 
-    except Exception as e:
-        print('Could not convert {}: {}'.format(base_csv, str(e)))
+                if row.get('') is not None:
+                    row['date'] = row['']
+                    row.pop('')
+
+                for key, value in row.items():
+                    row[key] = ''
+                    for char in value:
+                        if char.isdigit() or char in ['.', ',']:
+                            row[key] += char
+                csv_writer.writerow(row)
+
+
+
+        csv_file.close()
 
 
 def main():
