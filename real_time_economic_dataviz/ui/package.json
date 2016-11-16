@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "static-react components/Root.js > index.html"
+  },
+  "devDependencies": {
+    "babel-plugin-recharts": "^1.0.2",
+    "recharts": "^0.18.0"
+  }
+}
