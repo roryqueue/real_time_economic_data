@@ -15,8 +15,8 @@ const data = [
 class Root extends React.Component {
   render () {
     return <LineChart
-  width={1200}
-  height={800}
+  width={1000}
+  height={600}
   data={data}
   margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
 >
