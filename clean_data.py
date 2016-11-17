@@ -29,8 +29,9 @@ def standardize_column_name(column_name, table_name):
     if first_non_digit_finder is not None:
         year = new_column_name[:first_non_digit_finder.start()]
         suffix =  new_column_name[first_non_digit_finder.start():]
+        prefix = suffix[0].lower()
 
-        if suffix[0] == 'M':
+        if prefix == 'm':
             if len(suffix) == 3:
                 suffix = suffix[1:] + '01'
             elif len(suffix) == 2:
@@ -39,7 +40,7 @@ def standardize_column_name(column_name, table_name):
                 print("Couldn't format {}, continuing...".format(column_name))
                 return None
 
-        elif suffix[0] == 'Q':
+        elif prefix == 'q':
             if suffix[1:] == '1':
                 suffix = '0101'
             elif suffix[1:] == '2':
@@ -56,11 +57,9 @@ def standardize_column_name(column_name, table_name):
             print("Couldn't format {}, continuing...".format(column_name))
             return None
 
-        new_column_name = year + suffix
+        return prefix + year + suffix
 
-    new_column_name = table_name + '_' + new_column_name
-
-    return new_column_name
+    return column_name
 
 
 def standardize_value(value):
