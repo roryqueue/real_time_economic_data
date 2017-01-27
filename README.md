@@ -1,0 +1,5 @@
+# Real-Time Data Set for Macroeconomists
+
+For economists, real-time data has a different meaning than we think of as programmers. Economic observations are very slow, and often the first release of data has inaccuracies that are corrected by the final release, as more supporting data rolls in. So, if economists only model based on final releases, there exists a gap between historical and predictive when applying those models to new data as it comes in. Currently, there is a [project at the Philadelphia Fed](https://www.philadelphiafed.org/research-and-data/real-time-center/real-time-data/) to accrue this data, but it is currently stored in disparate excel spreadsheets, making it difficult to manipulate and combine measures using modern statistical analysis tools.
+
+The purpose of this repository is to provide tools to collect that data in uniform CSV, SQL, and REST API formats using Python, PostgreSQL, and Haskell tools, and (this part is in progress) to provide a Javascript-based web interface to visualize this concept to make it more approachable and teachable to students.
