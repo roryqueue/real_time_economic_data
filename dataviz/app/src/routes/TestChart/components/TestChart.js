@@ -1,7 +1,7 @@
 import React from 'react'
 import { XAxis, LineChart, Tooltip, CartesianGrid, Line } from 'recharts'
 
-const data = [
+const defaultData = [
   { name: 'CPI66Q1', uv: 4000, pv: 2400, amt: 2400 },
   { name: 'CPI66Q2', uv: 3000, pv: 1398, amt: 2210 },
   { name: 'CPI66Q3', uv: 2000, pv: 9800, amt: 2290 },

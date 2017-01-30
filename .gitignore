@@ -1,3 +1,4 @@
 raw_html/
 data_parsing/configs.py
 *.pyc
+dataviz/app/node_modules/
