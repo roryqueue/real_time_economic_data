@@ -21,13 +21,11 @@ export function increment (value = 1) {
 export const doubleAsync = () => {
   return (dispatch, getState) => {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        dispatch({
-          type    : COUNTER_DOUBLE_ASYNC,
-          payload : getState().counter
-        })
-        resolve()
-      }, 200)
+      dispatch({
+        type    : COUNTER_DOUBLE_ASYNC,
+        payload : getState().counter
+      })
+      resolve()
     })
   }
 }
