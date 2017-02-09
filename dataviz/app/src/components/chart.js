@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
 import { XAxis, LineChart, Tooltip, CartesianGrid, Line } from 'recharts'
 
 const defaultData = [
@@ -13,33 +12,19 @@ const defaultData = [
       {name: 'CPI67Q4', uv: 3490, pv: 4300, amt: 2100},
 ];
 
-class Chart extends Component {
+const Chart = ({}) => (
+  <LineChart
+    width={1000}
+    height={600}
+    data={defaultData}
+    margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+  >
+    <XAxis dataKey='name' />
+    <Tooltip />
+    <CartesianGrid stroke='#f5f5f5' />
+    <Line type='monotone' dataKey='uv' stroke='#ff7300' yAxisId={0} />
+    <Line type='monotone' dataKey='pv' stroke='#387908' yAxisId={1} />
+  </LineChart>
+)
 
-  render() {
-    if (!this.props.releaseData) return <div>Select a metric to get started</div>
-
-    return (
-    <LineChart
-      width={1000}
-      height={600}
-      data={defaultData}
-      margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-    >
-      <XAxis dataKey='name' />
-      <Tooltip />
-      <CartesianGrid stroke='#f5f5f5' />
-      <Line type='monotone' dataKey='uv' stroke='#ff7300' yAxisId={0} />
-      <Line type='monotone' dataKey='pv' stroke='#387908' yAxisId={1} />
-    </LineChart>
-    )
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    selectedMetric: state.selectedMetric,
-    releaseData: state.releaseData
-  }
-}
-
-export default connect(mapStateToProps)(Chart)
+export default Chart

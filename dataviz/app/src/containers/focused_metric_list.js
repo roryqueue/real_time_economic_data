@@ -13,6 +13,15 @@ const getVisibleTodos = (todos, filter) => {
   }
 }
 
+// getMetricList() {
+//   const baseApiUrl = 'http://localhost:3333/';
+//   fetch(baseApiUrl)
+//     .then(response => response.json())
+//     .then(response => response.map((metric) => metric.name))
+//     .then(response => this.setState({ metrics: response }));
+// }
+
+
 const mapStateToProps = (state) => {
   return {
     metrics: [],

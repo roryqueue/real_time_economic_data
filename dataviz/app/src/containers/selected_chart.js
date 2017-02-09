@@ -1,24 +1,21 @@
-import React, {Component} from 'react'
 import { connect } from 'react-redux'
+import {  } from '../actions'
+import Chart from '../components/chart'
 
-class BookDetail extends Component {
-  render() {
-    if (!this.props.book) return <div>Select a book to get started</div>
 
-    return (
-      <div>
-        <h3>Details for:</h3>
-        <div>{this.props.book.title}</div>
-        <div>Pages: {this.props.book.pages}</div>
-      </div>
-    )
-  }
-}
-
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
-    book: state.activeBook
   }
 }
 
-export default connect(mapStateToProps)(BookDetail)
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+const SelectedChart = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chart)
+
+export default SelectedChart
