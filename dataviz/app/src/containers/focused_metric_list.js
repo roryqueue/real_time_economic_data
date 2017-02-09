@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {  } from '../actions'
+// import {  } from '../actions'
 import MetricList from '../components/metric_list'
 
 const getVisibleTodos = (todos, filter) => {
@@ -12,15 +12,6 @@ const getVisibleTodos = (todos, filter) => {
       return todos.filter(t => !t.completed)
   }
 }
-
-// getMetricList() {
-//   const baseApiUrl = 'http://localhost:3333/';
-//   fetch(baseApiUrl)
-//     .then(response => response.json())
-//     .then(response => response.map((metric) => metric.name))
-//     .then(response => this.setState({ metrics: response }));
-// }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -37,7 +28,6 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
-
 
 const FocusedMetricList = connect(
   mapStateToProps,

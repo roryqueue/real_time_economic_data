@@ -14,11 +14,11 @@ export function receiveMetrics(json) {
   }
 }
 
-export function selectReleaseData(metric) {
+export function fetchMetrics() {
   const baseApiUrl = 'http://localhost:3333/';
   return dispatch => {
-    dispatch(requestMetrics())
-    return fetch(baseApiUrl + metric)
+    dispatch(requestMetrics(baseApiUrl))
+    return fetch(baseApiUrl)
       .then(response => response.json())
       .then(json => dispatch(receiveMetrics(metric, data)))
   }
