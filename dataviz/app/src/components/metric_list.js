@@ -1,69 +1,51 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { selectMetric, selectReleaseData } from '../actions/index'
-import { bindActionCreators } from 'Redux'
+import { selectMetric } from '../actions/index'
 
-class MetricList extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      metrics: []
-    };
-  }
-
-  getMetricList() {
-    const baseApiUrl = 'http://localhost:3333/';
-    fetch(baseApiUrl)
-      .then(response => response.json())
-      .then(response => response.map((metric) => metric.name))
-      .then(response => this.setState({ metrics: response }));
-  }
-
-  componentDidMount() {
-    this.getMetricList();
-  }
-
-  renderList() {
-    return this.state.metrics.map((metric, index) => {
-      return (
+const MetricList = ({ metrics, onMetricClick, selectedMetric }) => (
+  <div>
+    <h1>{selectedMetric || 'Nothing'}</h1>
+    <ul className="list-group col-sm-4">
+      {metrics.map((metric, index) => 
         <li key={metric}>
-          <button onClick={() => this.props.selectMetric(metric)}>
+          <button onClick={() => onMetricClick(metric)}>
             {metric}
           </button>
         </li>
-      )
-    });
-  }
+      )}
+    </ul>
+  </div>
+)
+// class MetricList extends Component {
 
-  render() {
-    return (
-      <div>
-        <h1>{this.props.selectedMetric || 'Nothing'}</h1>
-        <ul className="list-group col-sm-4">
-          {this.renderList()}
-        </ul>
-      </div>
-    )
-  }
-}
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     metrics: []
+  //   };
+  // }
 
-function mapStateToProps(state) {
-  // Whatever is returned will show up as props inside of MetricList
-  return {
-    metrics: state.metrics,
-    selectedMetric: state.selectedMetric
-  }
-}
+  // getMetricList() {
+  //   const baseApiUrl = 'http://localhost:3333/';
+  //   fetch(baseApiUrl)
+  //     .then(response => response.json())
+  //     .then(response => response.map((metric) => metric.name))
+  //     .then(response => this.setState({ metrics: response }));
+  // }
 
-// Anything returned from this function will end up as props on MetricList container
-function mapDispatchToProps(dispatch) {
-  // Whenever selectMetric is called, the result should be passed to all of our reducers
-  return bindActionCreators({
-    selectMetric: selectMetric,
-    selectReleaseData: selectReleaseData
-  }, dispatch)
-}
+  // componentDidMount() {
+  //   this.getMetricList();
+  // }
 
-// Propmote BookList from a component to a container - it needs to know about this new dispatch method, selectBook. Make it available as a prop.
-export default connect(mapStateToProps, mapDispatchToProps)(MetricList)
+//   renderList() {
+//     return this.state.metrics.map;
+//   }
+
+//   render() {
+//     return (
+
+//     )
+//   }
+// }
+
+export default MetricList

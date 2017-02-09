@@ -1,5 +1,13 @@
 import { combineReducers } from 'redux'
 
+function metrics(state = [], action) {
+  switch(action.type) {
+    case 'FETCH_METRICS':
+      return action.payload
+  }
+
+  return state
+}
 
 function selectedMetric(state = null, action) {
   switch(action.type) {
@@ -10,7 +18,7 @@ function selectedMetric(state = null, action) {
   return state
 }
 
-function releaseData(state = null, action) {
+function releaseData(state = [], action) {
   switch(action.type) {
     case 'RELEASE_DATA_SELECTED':
       return action.payload
@@ -22,8 +30,9 @@ function releaseData(state = null, action) {
 
 
 const rootReducer = combineReducers({
-  selectedMetric: selectedMetric,
-  releaseData: releaseData
+  metrics,
+  selectedMetric,
+  releaseData
 })
 
 export default rootReducer
