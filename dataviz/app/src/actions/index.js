@@ -6,13 +6,14 @@ export function selectBook(book) {
 }
 
 export function requestMetrics() {
+  alert("REQUEST_METRICS")
   return {
     type: 'REQUEST_METRICS'
   }
 }
 
 export function receiveMetrics(json) {
-  console.log("receiveMetrics!!!!!")
+  alert("RECIEVE_RELEASE_DATA")
   return {
     type: 'RECIEVE_RELEASE_DATA',
     'metric': metric,

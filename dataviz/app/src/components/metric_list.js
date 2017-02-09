@@ -49,16 +49,16 @@ class MetricList extends Component {
 }
 
 function mapStateToProps(state) {
-  // Whatever is returned will show up as props inside of BookList
+  // Whatever is returned will show up as props inside of MetricList
   return {
     metrics: state.metrics,
     selectedMetric: state.selectedMetric
   }
 }
 
-// Anything returned from this function will end up as props on BookList container
+// Anything returned from this function will end up as props on MetricList container
 function mapDispatchToProps(dispatch) {
-  // Whenever selectBook is called, the result should be passed to all of our reducers
+  // Whenever selectMetric is called, the result should be passed to all of our reducers
   return bindActionCreators({
     selectMetric: selectMetric,
     selectReleaseData: selectReleaseData

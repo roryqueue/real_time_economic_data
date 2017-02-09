@@ -4,6 +4,14 @@ import { XAxis, LineChart, Tooltip, CartesianGrid, Line } from 'recharts'
 
 
 class Chart extends Component {
+  getReleaseData(metric) {
+    const baseApiUrl = 'http://localhost:3333/' + metric;
+    fetch(baseApiUrl)
+      .then(response => response.json())
+      .then(response => response.map((metric) => metric.name))
+      .then(response => this.setState({ releaseData: response }));
+  }
+
   render() {
     if (!this.props.releaseData) return <div>Select a metric to get started</div>
 
