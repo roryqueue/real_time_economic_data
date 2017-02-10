@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import FocusedMetricList from '../containers/focused_metric_list'
 import SelectedChart from '../containers/selected_chart'
 import { fetchMetrics } from '../actions'
 
-export default class App extends Component {
+class App extends Component {
   
   constructor(props) {
     super(props)
@@ -36,7 +37,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const FocusedMetricList = connect(
+const WrappedApp = connect(
   mapStateToProps,
   mapDispatchToProps
-)(MetricList)
+)(App)
+
+export default WrappedApp
