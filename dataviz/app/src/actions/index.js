@@ -42,8 +42,6 @@ export function fetchReleaseData(metric) {
 }
 
 export function selectMetric(metric) {
-  dispatch(fetchReleaseData(metric))
-
   return {
     type: 'SELECT_METRIC',
     metric: metric

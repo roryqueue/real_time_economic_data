@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-// import {  } from '../actions'
+import { selectMetric, fetchReleaseData } from '../actions'
 import MetricList from '../components/metric_list'
 
 const getVisibleTodos = (todos, filter) => {
@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onMetricClick: (name) => {
       dispatch(selectMetric(name))
+      dispatch(fetchReleaseData(name))
     }
   }
 }
