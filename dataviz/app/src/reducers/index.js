@@ -2,29 +2,31 @@ import { combineReducers } from 'redux'
 
 function metrics(state = [], action) {
   switch(action.type) {
-    case 'FETCH_METRICS':
-      return action.payload
+    case 'RECIEVE_METRIC_DATA':
+      return action.data
+    default:
+      return state
   }
-
-  return state
 }
 
 function selectedMetric(state = null, action) {
   switch(action.type) {
-    case 'METRIC_SELECTED':
-      return action.payload
+    case 'SELECT_METRIC':
+      return action.metric
+    default:
+      return state
   }
-
-  return state
 }
 
 function releaseData(state = [], action) {
   switch(action.type) {
-    case 'RELEASE_DATA_SELECTED':
-      return action.payload
+    case 'RECIEVE_RELEASE_DATA':
+      return {
+        action.data
+      }
+    default:
+      return state
   }
-
-  return state
 }
 
 

@@ -1,12 +1,20 @@
-export function requestMetrics() {
-  alert("REQUEST_METRICS")
+const baseApiUrl = 'http://localhost:3333/';
+
+export function recordError(error) {
   return {
-    type: 'REQUEST_METRICS'
+    type: 'RECORD_ERROR',
+    error: error
   }
 }
 
-export function receiveMetrics(json) {
-  alert("RECIEVE_RELEASE_DATA")
+export function receiveMetricData(data) {
+  return {
+    type: 'RECIEVE_METRIC_DATA',
+    'data': data
+  }
+}
+
+export function receiveReleaseData(metric, data) {
   return {
     type: 'RECIEVE_RELEASE_DATA',
     'metric': metric,
@@ -15,20 +23,28 @@ export function receiveMetrics(json) {
 }
 
 export function fetchMetrics() {
-  const baseApiUrl = 'http://localhost:3333/';
   return dispatch => {
-    dispatch(requestMetrics(baseApiUrl))
     return fetch(baseApiUrl)
       .then(response => response.json())
-      .then(json => dispatch(receiveMetrics(metric, data)))
+      .then(data => dispatch(receiveMetricData(data)))
+      .catch(error => dispatch(recordError(error)));
+  }
+}
+
+export function fetchReleaseData(metric) {
+  return dispatch => {
+    return fetch(baseApiUrl + metric)
+      .then(response => response.json())
+      .then(data => dispatch(receiveReleaseData(metric, data)))
+      .catch(error => dispatch(recordError(error)));
   }
 }
 
 export function selectMetric(metric) {
-  selectReleaseData(metric)
+  dispatch(fetchReleaseData(metric))
 
   return {
-    type: 'METRIC_SELECTED',
-    payload: metric
+    type: 'SELECT_METRIC',
+    metric: metric
   }
 }
