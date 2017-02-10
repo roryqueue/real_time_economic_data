@@ -3,7 +3,7 @@ import FocusedMetricList from '../containers/focused_metric_list'
 import SelectedChart from '../containers/selected_chart'
 import { fetchMetrics } from '../actions'
 
-export default class App extends Component {
+export default class WrappedApp extends Component {
   
   constructor(props) {
     super(props)
@@ -25,7 +25,11 @@ export default class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    metrics: [],
+    selectedMetric: null
+    // todos: getVisibleTodos(state.todos, state.visibilityFilter)
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

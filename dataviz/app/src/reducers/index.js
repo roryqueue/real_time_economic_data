@@ -21,15 +21,11 @@ function selectedMetric(state = null, action) {
 function releaseData(state = [], action) {
   switch(action.type) {
     case 'RECIEVE_RELEASE_DATA':
-      return {
-        action.data
-      }
+      return action.data
     default:
       return state
   }
 }
-
-
 
 const rootReducer = combineReducers({
   metrics,
