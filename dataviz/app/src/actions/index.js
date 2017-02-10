@@ -26,6 +26,7 @@ export function fetchMetrics() {
   return dispatch => {
     return fetch(baseApiUrl)
       .then(response => response.json())
+      .then(json => json.map(row => row.name))
       .then(data => dispatch(receiveMetricData(data)))
       .catch(error => dispatch(recordError(error)));
   }

@@ -14,11 +14,12 @@ const getVisibleTodos = (todos, filter) => {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    metrics: [],
-    selectedMetric: null
-    // todos: getVisibleTodos(state.todos, state.visibilityFilter)
-  }
+  return state
+  // return {
+  //   metrics: [],
+  //   selectedMetric: null
+  //   // todos: getVisibleTodos(state.todos, state.visibilityFilter)
+  // }
 }
 
 const mapDispatchToProps = (dispatch) => {

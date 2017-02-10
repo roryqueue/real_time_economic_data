@@ -27,10 +27,20 @@ function releaseData(state = [], action) {
   }
 }
 
+function error(state = null, action) {
+  switch(action.type) {
+    case 'RECORD_ERROR':
+      return action.error
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   metrics,
   selectedMetric,
-  releaseData
+  releaseData,
+  error
 })
 
 export default rootReducer
