@@ -18,7 +18,7 @@ function selectedMetric(state = null, action) {
   }
 }
 
-function releaseData(state = [], action) {
+function releaseData(state = null, action) {
   switch(action.type) {
     case 'RECIEVE_RELEASE_DATA':
       return action.data
