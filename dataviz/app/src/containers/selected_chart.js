@@ -15,15 +15,26 @@ const defaultData = [
 
 const mapStateToProps = (state) => {
   console.log(state)
-  const releaseData = state.releaseData || defaultData
+  let releaseData = defaultData
+
+  if (state.releaseData !== null && state.metric !== null) {
+    releaseData = state.releaseData.map(function(releasePeriod) {
+      return {
+        name: state.metric,
+        uv: 0,
+        pv: 0,
+        amt: parseFloat(releasePeriod.metric_values[0].value)
+      }
+    })
+  }
+
   return {
     releaseData
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-  }
+  return {}
 }
 
 const SelectedChart = connect(
